@@ -28,7 +28,7 @@ function BoardColumn({
   return (
     <section
       ref={droppable.ref}
-      className={`min-h-[24rem] rounded-xl border p-4 transition-colors ${
+      className={`min-h-72 rounded-xl border p-3 transition-colors sm:min-h-[24rem] sm:p-4 ${
         isActiveDropColumn
           ? "border-sorbet-sage bg-sorbet-sage-soft"
           : "border-sorbet-gray bg-sorbet-mist/65"

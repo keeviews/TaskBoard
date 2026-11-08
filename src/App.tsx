@@ -315,14 +315,14 @@ function App() {
   );
 
   const navigationButtonClass = (view: "overview" | TaskStatus) =>
-    `w-[85%] mx-auto mb-2 px-4 py-2 text-left rounded  transition-colors hover:bg-sorbet-sage/35 ${
+    `shrink-0 rounded px-3 py-2 text-left text-sm transition-colors hover:bg-sorbet-sage/35 md:mx-auto md:mb-2 md:w-[85%] md:px-4 ${
       activeView === view ? "bg-sorbet-sage/35 font-medium" : ""
     }`;
 
   return (
-    <main className="flex h-screen w-screen overflow-hidden bg-sorbet-white text-sorbet-ink">
-      <div className="flex h-full w-56 shrink-0 flex-col border-r border-sorbet-gray bg-sorbet-sage-soft">
-        <h1 className="text-[35px] text-center font-bold pt-[23px] pb-[23px]">
+    <main className="flex min-h-screen w-full flex-col bg-sorbet-white text-sorbet-ink md:h-screen md:flex-row md:overflow-hidden">
+      <div className="flex w-full shrink-0 flex-row flex-wrap border-b border-sorbet-gray bg-sorbet-sage-soft px-3 pb-3 md:h-full md:w-56 md:flex-col md:border-r md:border-b-0 md:px-0 md:pb-0">
+        <h1 className="w-full px-4 py-4 text-center text-2xl font-bold sm:text-3xl md:py-[23px] md:text-[35px]">
           TaskSetter
         </h1>
         <button
@@ -332,7 +332,7 @@ function App() {
         >
           Overview
         </button>
-        <div className="flex flex-col pt-[23px] pb-45">
+        <div className="flex min-w-0 flex-1 gap-2 overflow-x-auto md:flex-none md:flex-col md:pt-[23px] md:pb-45">
           <button
             onClick={() => setActiveView("todo")}
             aria-pressed={activeView === "todo"}
@@ -369,16 +369,16 @@ function App() {
 
       {taskError && <p className="mt-4 text-sorbet-rose">{taskError}</p>}
 
-      <div className="relative flex min-w-0 flex-1 flex-col overflow-hidden">
-        <div className="flex items-center justify-between border-b border-sorbet-gray bg-sorbet-white px-8 py-5">
+      <div className="relative flex min-w-0 flex-1 flex-col md:min-h-0 md:overflow-hidden">
+        <div className="flex flex-col gap-3 border-b border-sorbet-gray bg-sorbet-white px-4 py-4 sm:px-6 md:flex-row md:items-center md:justify-between md:px-8 md:py-5">
           <input
             type="search"
             value={searchQuery}
             onChange={(event) => setSearchQuery(event.target.value)}
             placeholder="Search tasks..."
-            className="w-64 rounded-lg border border-sorbet-gray bg-sorbet-white px-3 py-2 text-sm outline-none focus:border-sorbet-sage"
+            className="w-full rounded-lg border border-sorbet-gray bg-sorbet-white px-3 py-2 text-base outline-none focus:border-sorbet-sage sm:text-sm md:w-64"
           />
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-end gap-2 sm:gap-3">
             <div ref={membersMenuRef} className="relative">
               <button
                 onClick={() => setIsManageMembersOpen((open) => !open)}
@@ -388,7 +388,7 @@ function App() {
               </button>
               {isManageMembersOpen && (
                 <form
-                  className="absolute right-0 top-full z-50 mt-2 w-80 rounded-lg border border-sorbet-gray bg-sorbet-white p-3 shadow-xl"
+                  className="absolute right-0 top-full z-50 mt-2 w-[calc(100vw-2rem)] max-w-80 rounded-lg border border-sorbet-gray bg-sorbet-white p-3 shadow-xl"
                   onSubmit={async (event) => {
                     event.preventDefault();
 
@@ -491,7 +491,7 @@ function App() {
             {isFormOpen && (
               <form
                 onSubmit={handleTaskSubmit}
-                className="absolute right-0 top-full z-50 mt-2 w-96 rounded-xl border border-sorbet-gray bg-sorbet-white p-5 shadow-xl"
+                className="absolute right-0 top-full z-50 mt-2 w-[calc(100vw-2rem)] max-w-96 rounded-xl border border-sorbet-gray bg-sorbet-white p-5 shadow-xl"
               >
                 <input
                   type="text"
@@ -581,7 +581,7 @@ function App() {
             onDragEnd={handleDragEnd}
           >
             <div
-              className={`grid min-h-full gap-5 p-8 ${
+              className={`grid min-h-full gap-4 p-4 sm:gap-5 sm:p-6 md:p-8 ${
                 activeView === "overview"
                   ? "grid-cols-1 md:grid-cols-2 2xl:grid-cols-4"
                   : "grid-cols-1"

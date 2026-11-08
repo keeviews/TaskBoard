@@ -150,12 +150,13 @@ function TaskCard({
   return (
     <div
       ref={menuRef}
-      className="rounded-lg border border-sorbet-gray bg-sorbet-white p-4 shadow-sm"
+      className="rounded-lg border border-sorbet-gray bg-sorbet-white p-3 shadow-sm sm:p-4"
     >
       <div className="relative">
         {!isEditing && (
           <button
-            className="float-right"
+            className="float-right -mr-2 -mt-2 p-2"
+            aria-label={`Open menu for ${task.title}`}
             onClick={() => {
               onOpen();
               setIsMenuOpen((open) => !open);
@@ -165,7 +166,7 @@ function TaskCard({
           </button>
         )}
         {!isEditing && isMenuOpen && (
-          <div className="absolute right-0 top-4.5 z-10 mt-2 w-48 rounded-md bg-sorbet-white shadow-lg ring-1 ring-sorbet-gray">
+          <div className="absolute right-0 top-8 z-10 mt-2 w-48 rounded-md bg-sorbet-white shadow-lg ring-1 ring-sorbet-gray">
             <button
               className="block w-full px-4 py-2 text-left text-sm text-sorbet-ink hover:bg-sorbet-mist"
               onClick={() => {
