@@ -1,5 +1,5 @@
 import { useSortable } from "@dnd-kit/react/sortable";
-import type { Task, TaskStatus } from "../types/task";
+import type { Task, TaskStatus, TeamMember } from "../types/task";
 import TaskCard from "./taskcard";
 
 type SortableTaskCardProps = {
@@ -9,6 +9,7 @@ type SortableTaskCardProps = {
   onOpen: () => void;
   onTaskUpdated: (updatedTask: Task) => void;
   onTaskDeleted: (deletedTaskId: string) => void;
+  teamMembers: TeamMember[];
 };
 
 function SortableTaskCard({
@@ -18,6 +19,7 @@ function SortableTaskCard({
   onOpen,
   onTaskUpdated,
   onTaskDeleted,
+  teamMembers,
 }: SortableTaskCardProps) {
   const sortable = useSortable({
     id: task.id,
@@ -25,6 +27,7 @@ function SortableTaskCard({
     group: status,
     type: "task",
     accept: "task",
+    data: { status },
   });
 
   return (
@@ -39,6 +42,7 @@ function SortableTaskCard({
         onOpen={onOpen}
         onTaskUpdated={onTaskUpdated}
         onTaskDeleted={onTaskDeleted}
+        teamMembers={teamMembers}
       />
     </div>
   );

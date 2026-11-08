@@ -1,4 +1,4 @@
-import { useDroppable } from "@dnd-kit/react";
+import { useDragOperation, useDroppable } from "@dnd-kit/react";
 import type { ReactNode } from "react";
 import type { TaskStatus } from "../types/task";
 
@@ -6,20 +6,30 @@ type BoardColumnProps = {
   status: TaskStatus;
   title: string;
   children: ReactNode;
+  expanded?: boolean;
 };
 
-function BoardColumn({ title, status, children }: BoardColumnProps) {
+function BoardColumn({
+  title,
+  status,
+  children,
+  expanded = false,
+}: BoardColumnProps) {
   const droppable = useDroppable({
     id: status,
     type: "column",
     accept: "task",
+    data: { status },
   });
+  const { target } = useDragOperation();
+  const isActiveDropColumn =
+    droppable.isDropTarget || target?.data.status === status;
 
   return (
     <section
       ref={droppable.ref}
       className={`min-h-[24rem] rounded-xl border p-4 transition-colors ${
-        droppable.isDropTarget
+        isActiveDropColumn
           ? "border-sorbet-sage bg-sorbet-sage-soft"
           : "border-sorbet-gray bg-sorbet-mist/65"
       }`}
@@ -28,7 +38,15 @@ function BoardColumn({ title, status, children }: BoardColumnProps) {
         {title}
       </h2>
 
-      <div className="flex flex-col gap-3">{children}</div>
+      <div
+        className={
+          expanded
+            ? "grid grid-cols-1 gap-3 md:grid-cols-2"
+            : "flex flex-col gap-3"
+        }
+      >
+        {children}
+      </div>
     </section>
   );
 }
