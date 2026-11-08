@@ -44,10 +44,7 @@ function getDueDateStatus(dueDate: string | null) {
     };
   }
 
-  return {
-    label: `Due ${dueDate}`,
-    styles: "border-sorbet-gray text-sorbet-ink/70",
-  };
+  return null;
 }
 
 function TaskCard({
@@ -150,7 +147,7 @@ function TaskCard({
   return (
     <div
       ref={menuRef}
-      className="rounded-lg border border-sorbet-gray bg-sorbet-white p-3 shadow-sm sm:p-4"
+      className="rounded-lg border border-sorbet-gray bg-sorbet-white p-3 sm:p-4"
     >
       <div className="relative">
         {!isEditing && (
@@ -166,7 +163,7 @@ function TaskCard({
           </button>
         )}
         {!isEditing && isMenuOpen && (
-          <div className="absolute right-0 top-8 z-10 mt-2 w-48 rounded-md bg-sorbet-white shadow-lg ring-1 ring-sorbet-gray">
+          <div className="absolute right-0 top-8 z-10 mt-2 w-48 rounded-md bg-sorbet-white shadow-sm ring-1 ring-sorbet-gray">
             <button
               className="block w-full px-4 py-2 text-left text-sm text-sorbet-ink hover:bg-sorbet-mist"
               onClick={() => {
@@ -247,18 +244,20 @@ function TaskCard({
             )}
           </div>
 
-          {saveError && <p className="text-sm text-sorbet-rose">{saveError}</p>}
+          {saveError && (
+            <p className="break-words text-sm text-sorbet-rose">{saveError}</p>
+          )}
 
           <div className="flex gap-2">
             <button
-              className="mb-2 block rounded-md bg-sorbet-sage p-1.5 text-sorbet-ink shadow-sm hover:bg-sorbet-rose sm:text-sm"
+              className="mb-2 block rounded-md bg-sorbet-sage p-1.5 text-sorbet-ink hover:bg-sorbet-rose sm:text-sm"
               onClick={saveTask}
             >
               Save
             </button>
 
             <button
-              className="mb-2 block rounded-md bg-sorbet-rose p-1.5 text-sorbet-ink shadow-sm hover:bg-sorbet-sage sm:text-sm"
+              className="mb-2 block rounded-md bg-sorbet-rose p-1.5 text-sorbet-ink hover:bg-sorbet-sage sm:text-sm"
               onClick={() => setIsEditing(false)}
             >
               Cancel
@@ -277,30 +276,36 @@ function TaskCard({
             </div>
           )}
           <div className="flex items-center justify-between gap-3 pr-6">
-            <h2 className="font-bold">{task.title}</h2>
+            <h2 className="min-w-0 break-words text-left text-xl font-extrabold sm:text-2xl">
+              {task.title}
+            </h2>
 
             {dueDateStatus && (
               <span
-                className={`shrink-0 border-l-2 pl-2 text-xs font-medium ${dueDateStatus.styles}`}
+                className={`shrink-0 border-l-2 pl-2 text-[10px] font-medium ${dueDateStatus.styles}`}
               >
                 {dueDateStatus.label}
               </span>
             )}
           </div>
 
-          {task.description && <p className="mt-2">{task.description}</p>}
+          {task.description && (
+            <p className="mt-2 break-words text-[12px]">{task.description}</p>
+          )}
           <hr className="my-3 border-sorbet-gray" />
           <div className="flex items-center justify-between gap-3">
             <div className="flex min-w-0 items-center gap-2">
               <p
-                className={`shrink-0 rounded-2xl px-2 py-1 text-xs font-medium ${priorityStyles[task.priority]}`}
+                className={`shrink-0 rounded-2xl px-2 py-1 text-[10px] font-medium ${priorityStyles[task.priority]}`}
               >
                 {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}{" "}
                 priority
               </p>
             </div>
             {task.due_date && (
-              <p className="text-xs text-sorbet-ink/60">Due {task.due_date}</p>
+              <p className="text-[10px] text-sorbet-ink/60">
+                Due {task.due_date}
+              </p>
             )}
           </div>
         </>

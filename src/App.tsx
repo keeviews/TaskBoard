@@ -367,7 +367,11 @@ function App() {
         </div>
       </div>
 
-      {taskError && <p className="mt-4 text-sorbet-rose">{taskError}</p>}
+      {taskError && (
+        <p className="mt-4 break-words px-4 text-sorbet-rose">
+          {taskError}
+        </p>
+      )}
 
       <div className="relative flex min-w-0 flex-1 flex-col md:min-h-0 md:overflow-hidden">
         <div className="flex flex-col gap-3 border-b border-sorbet-gray bg-sorbet-white px-4 py-4 sm:px-6 md:flex-row md:items-center md:justify-between md:px-8 md:py-5">
@@ -382,13 +386,13 @@ function App() {
             <div ref={membersMenuRef} className="relative">
               <button
                 onClick={() => setIsManageMembersOpen((open) => !open)}
-                className="rounded-lg border border-sorbet-gray px-4 py-2 font-medium text-sorbet-ink shadow-sm hover:bg-sorbet-mist"
+                className="rounded-lg border border-sorbet-gray px-4 py-2 font-medium text-sorbet-ink hover:bg-sorbet-mist"
               >
                 Manage members
               </button>
               {isManageMembersOpen && (
                 <form
-                  className="absolute right-0 top-full z-50 mt-2 w-[calc(100vw-2rem)] max-w-80 rounded-lg border border-sorbet-gray bg-sorbet-white p-3 shadow-xl"
+                  className="absolute right-0 top-full z-50 mt-2 w-[calc(100vw-2rem)] max-w-80 rounded-lg border border-sorbet-gray bg-sorbet-white p-3 shadow-sm"
                   onSubmit={async (event) => {
                     event.preventDefault();
 
@@ -458,7 +462,9 @@ function App() {
                                 className="h-3 w-3 shrink-0 rounded-full"
                                 style={{ backgroundColor: member.color }}
                               />
-                              <span className="truncate">{member.name}</span>
+                              <span className="min-w-0 break-words">
+                                {member.name}
+                              </span>
                             </span>
                             <button
                               type="button"
@@ -483,7 +489,7 @@ function App() {
               onClick={() => {
                 setIsFormOpen(!isFormOpen);
               }}
-              className="rounded-lg bg-sorbet-sage px-4 py-2 font-medium text-sorbet-ink shadow-sm hover:bg-sorbet-rose"
+              className="rounded-lg bg-sorbet-sage px-4 py-2 font-medium text-sorbet-ink hover:bg-sorbet-rose"
             >
               Add Task
             </button>
@@ -491,14 +497,14 @@ function App() {
             {isFormOpen && (
               <form
                 onSubmit={handleTaskSubmit}
-                className="absolute right-0 top-full z-50 mt-2 w-[calc(100vw-2rem)] max-w-96 rounded-xl border border-sorbet-gray bg-sorbet-white p-5 shadow-xl"
+                className="absolute right-0 top-full z-50 mt-2 w-[calc(100vw-2rem)] max-w-96 max-h-[calc(100dvh-15rem)] overflow-y-auto rounded-xl border border-sorbet-gray bg-sorbet-white p-5 shadow-sm sm:max-h-none"
               >
                 <input
                   type="text"
                   value={newTaskTitle}
                   onChange={(event) => setNewTaskTitle(event.target.value)}
                   placeholder="Task title"
-                  className="mb-3 block w-full rounded-md border-sorbet-gray bg-sorbet-white px-3 py-2.5 shadow-sm focus:border-sorbet-sage focus:ring-sorbet-sage sm:text-sm"
+                  className="mb-3 block w-full rounded-md border border-sorbet-gray bg-sorbet-white px-3 py-2.5 focus:border-sorbet-sage focus:ring-sorbet-sage sm:text-sm"
                 />
 
                 <textarea
@@ -507,36 +513,45 @@ function App() {
                     setNewTaskDescription(event.target.value)
                   }
                   placeholder="Task description"
-                  className="mb-3 block min-h-28 w-full rounded-md border-sorbet-gray bg-sorbet-white px-3 py-2.5 shadow-sm focus:border-sorbet-sage focus:ring-sorbet-sage sm:text-sm"
+                  className="mb-3 block min-h-28 w-full rounded-md border border-sorbet-gray bg-sorbet-white px-3 py-2.5 focus:border-sorbet-sage focus:ring-sorbet-sage sm:text-sm"
                 />
 
-                <select
-                  value={newTaskPriority}
-                  onChange={(event) =>
-                    setNewTaskPriority(
-                      event.target.value as "low" | "normal" | "high",
-                    )
-                  }
-                  className="mb-3 block w-full rounded-md border-sorbet-gray bg-sorbet-white px-3 py-2.5 shadow-sm focus:border-sorbet-sage focus:ring-sorbet-sage sm:text-sm"
-                >
-                  <option value="low">Low priority</option>
-                  <option value="normal">Normal priority</option>
-                  <option value="high">High priority</option>
-                </select>
-
-                <input
-                  type="date"
-                  value={newTaskDueDate}
-                  onChange={(event) => setNewTaskDueDate(event.target.value)}
-                  className="mb-4 block w-full rounded-md border-sorbet-gray bg-sorbet-white px-3 py-2.5 shadow-sm focus:border-sorbet-sage focus:ring-sorbet-sage sm:text-sm"
-                />
-                <div className="mb-4 flex items-center gap-2">
+                <div className="mb-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <label className="flex flex-col gap-1.5 text-sm font-medium text-sorbet-ink">
+                    Priority
+                    <select
+                      value={newTaskPriority}
+                      onChange={(event) =>
+                        setNewTaskPriority(
+                          event.target.value as "low" | "normal" | "high",
+                        )
+                      }
+                      className="w-full rounded-md border border-sorbet-gray bg-sorbet-white px-3 py-2.5 text-base focus:border-sorbet-sage focus:ring-sorbet-sage sm:text-sm"
+                    >
+                      <option value="low">Low</option>
+                      <option value="normal">Normal</option>
+                      <option value="high">High</option>
+                    </select>
+                  </label>
+                  <label className="flex flex-col gap-1.5 text-sm font-medium text-sorbet-ink">
+                    Due date
+                    <input
+                      type="date"
+                      value={newTaskDueDate}
+                      onChange={(event) => setNewTaskDueDate(event.target.value)}
+                      className="w-full rounded-md border border-sorbet-gray bg-sorbet-white px-3 py-2.5 text-base focus:border-sorbet-sage focus:ring-sorbet-sage sm:text-sm"
+                    />
+                  </label>
+                </div>
+                <label className="mb-4 flex flex-col gap-1.5 text-sm font-medium text-sorbet-ink">
+                  Assign member
+                  <div className="flex items-center gap-2">
                   <select
                     value={selectedAssigneeId}
                     onChange={(event) =>
                       setSelectedAssigneeId(event.target.value)
                     }
-                    className="block min-w-0 flex-1 rounded-md border border-sorbet-gray bg-sorbet-white px-3 py-2.5"
+                    className="block min-w-0 flex-1 rounded-md border border-sorbet-gray bg-sorbet-white px-3 py-2.5 text-base focus:border-sorbet-sage focus:ring-sorbet-sage sm:text-sm"
                   >
                     <option value="">Unassigned</option>
 
@@ -548,12 +563,13 @@ function App() {
                   </select>
                   {newTaskAssignee && (
                     <span
-                      className="h-9 w-9 shrink-0 rounded-full border-2 border-sorbet-white shadow-sm"
+                      className="h-9 w-9 shrink-0 rounded-full border-2 border-sorbet-white"
                       style={{ backgroundColor: newTaskAssignee.color }}
                       title={`${newTaskAssignee.name}'s color`}
                     />
                   )}
-                </div>
+                  </div>
+                </label>
                 <button
                   type="button"
                   onClick={() => setIsFormOpen(false)}
@@ -661,8 +677,10 @@ function App() {
                 if (!draggedTask) return null;
 
                 return (
-                  <div className="w-72 rotate-1 rounded-lg border border-sorbet-sage bg-sorbet-white p-4 shadow-2xl">
-                    <h2 className="font-semibold">{draggedTask.title}</h2>
+                  <div className="w-72 max-w-[calc(100vw-2rem)] rotate-1 rounded-lg border border-sorbet-sage bg-sorbet-white p-4 shadow-lg">
+                    <h2 className="break-words font-semibold">
+                      {draggedTask.title}
+                    </h2>
                   </div>
                 );
               }}
